@@ -1,3 +1,4 @@
+//src/main.js
 let config = {
     type: Phaser.AUTO,
     width: 640,
