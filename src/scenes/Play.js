@@ -5,6 +5,6 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(20, 20, "Endless Runner Play")
+        //this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
     }
 }
