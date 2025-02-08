@@ -4,18 +4,18 @@ let config = {
     width: 640,
     height: 480,
     scene: [ Menu, Play ],
-    /*physics: {
+    physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 }
         }
-    }*/
+    }
   };
 
 let game = new Phaser.Game(config)
 
-// Define global variables
-let keySPACE, keyLEFTCLICK, keyRESET;
+// keyboard bindings
+let keySPACE, keyRESET
 
 // set UI sizes
 let borderUISize = game.config.height / 15

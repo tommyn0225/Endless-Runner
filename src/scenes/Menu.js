@@ -10,14 +10,10 @@ class Menu extends Phaser.Scene {
         this.load.spritesheet('asteroid', './assets/asteroid.png', {
             frameWidth: 64,
             frameHeight: 64,
-            startFrame: 0,
-            endFrame: 4
         })
         this.load.spritesheet('spaceship', './assets/Spaceship.png', {
             frameWidth: 64,
             frameHeight: 64,
-            startFrame: 0,
-            endFrame: 4
         })
     }
     
