@@ -8,5 +8,3 @@ class Spaceship extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
     }
 }
-
-export default Spaceship;
