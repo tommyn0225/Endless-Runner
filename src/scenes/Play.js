@@ -19,25 +19,22 @@ class Play extends Phaser.Scene {
 
         // spaceship
         this.p1Spaceship = this.physics.add.sprite(100, game.config.height / 2, 'spaceship').setOrigin(0.5);
+        
+        // spaceship animation
         this.anims.create({
             key: 'fly',
             frames: this.anims.generateFrameNumbers('spaceship', { start: 0, end: 3 }),
             frameRate: 10,
             repeat: -1
         });
-        this.p1Spaceship.play('fly'); // animation
+        this.p1Spaceship.play('fly'); // start spaceship animation
 
-          // asteroids
-          this.obs01 = new Obstacle(this, game.config.width + borderUISize*6, borderUISize*4, 'asteroid', 0, 30).setOrigin(0, 0)
-          this.obs02 = new Obstacle(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'asteroid', 0, 20).setOrigin(0,0)
-          this.obs03 = new Obstacle(this, game.config.width, borderUISize*6 + borderPadding*4, 'asteroid', 0, 10).setOrigin(0,0)
-
-        // input controls
-        this.input.on('pointerdown', () => {
-            this.p1Spaceship.setVelocityY(600); //down
-        });
-        this.input.on('pointerup', () => {
-            this.p1Spaceship.setVelocityY(-600); // up
+        // asteroid animated sprite
+        this.anims.create({
+            key: 'roll',
+            frames: this.anims.generateFrameNumbers('asteroid', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
         });
 
         // asteroid group
@@ -57,6 +54,14 @@ class Play extends Phaser.Scene {
             callbackScope: this,
             loop: true
         })
+
+        // input controls
+        this.input.on('pointerdown', () => {
+            this.p1Spaceship.setVelocityY(600); //down
+        });
+        this.input.on('pointerup', () => {
+            this.p1Spaceship.setVelocityY(-600); // up
+        });
 
     }
 
