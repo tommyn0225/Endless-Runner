@@ -39,5 +39,15 @@ class Play extends Phaser.Scene {
 
     update() {
         this.background.tilePositionX += 4;
+
+        // border between 50 and 430 on the y-axis
+        if (this.p1Spaceship.y < 125) {
+            this.p1Spaceship.y = 125;
+            this.p1Spaceship.setVelocityY(0);
+        }
+        if (this.p1Spaceship.y > 430) {
+            this.p1Spaceship.y = 430;
+            this.p1Spaceship.setVelocityY(0);
+        }
     }
 }
