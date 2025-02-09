@@ -9,6 +9,7 @@ class Play extends Phaser.Scene {
         this.timeElapsed = 0;
         this.difficultyLevel = 1;
         this.spawnDelay = 2000; // initial spawn delay
+        this.backgroundSpeed = 4; // initial background speed
 
         // scrolling background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
@@ -102,7 +103,7 @@ class Play extends Phaser.Scene {
 
         if (this.gameOver) return;
 
-        this.background.tilePositionX += 4;
+        this.background.tilePositionX += this.backgroundSpeed;
 
         // top and bottom borders
         if (this.p1Spaceship.y < 125) {
@@ -147,7 +148,7 @@ class Play extends Phaser.Scene {
     spawnAsteroid() {
         let randomY = Phaser.Math.Between(125, 430);
         let asteroid = new Obstacle(this, game.config.width, randomY, 'asteroid', 0);
-        asteroid.setScale(0.5);
+        asteroid.setScale(0.5); // reduce the size of the asteroid
         asteroid.moveSpeed = Phaser.Math.Between(2 + this.difficultyLevel, 6 + this.difficultyLevel); // faster asteroids with difficulty
         this.asteroids.add(asteroid);
     }
@@ -155,6 +156,7 @@ class Play extends Phaser.Scene {
     increaseDifficulty() {
         this.difficultyLevel++;
         this.spawnDelay = Math.max(200, this.spawnDelay - 200); // reduce delay, but cap it at 200ms
+        this.backgroundSpeed += 1; // increase background speed
     }
 
     handleCollision() {
