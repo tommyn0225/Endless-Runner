@@ -37,6 +37,9 @@ class Play extends Phaser.Scene {
 
         // spaceship
         this.p1Spaceship = this.physics.add.sprite(100, game.config.height / 2, 'spaceship').setOrigin(0.5);
+        // adjust hitbox size
+        this.p1Spaceship.body.setSize(this.p1Spaceship.width * 0.8, this.p1Spaceship.height * 0.6);
+
         
         // spaceship animation
         this.anims.create({

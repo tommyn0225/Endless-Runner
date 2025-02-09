@@ -6,10 +6,13 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite  {
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
+        this.setSize(this.width * 0.8, this.height * 0.8);
+
         this.moveSpeed = 3
 
         this.play('roll'); // play animation
     }
+
 
     update() {
         // asteroids move left
