@@ -147,6 +147,7 @@ class Play extends Phaser.Scene {
     spawnAsteroid() {
         let randomY = Phaser.Math.Between(125, 430);
         let asteroid = new Obstacle(this, game.config.width, randomY, 'asteroid', 0);
+        asteroid.setScale(0.5);
         asteroid.moveSpeed = Phaser.Math.Between(2 + this.difficultyLevel, 6 + this.difficultyLevel); // faster asteroids with difficulty
         this.asteroids.add(asteroid);
     }
