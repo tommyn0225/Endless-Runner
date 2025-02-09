@@ -7,7 +7,9 @@ class Play extends Phaser.Scene {
     create() {
         this.gameOver = false;
         this.timeElapsed = 0;
-        
+        this.difficultyLevel = 1;
+        this.spawnDelay = 2000; // initial spawn delay
+
         // scrolling background
         this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
         
@@ -53,22 +55,18 @@ class Play extends Phaser.Scene {
         });
 
         // asteroid group
-        this.asteroids = this.physics.add.group()
+        this.asteroids = this.physics.add.group();
 
-        // spawn 2 asteroids
-        for (let i = 0; i < 2; i++) {
-            let randomY = Phaser.Math.Between(125, 430)
-            let asteroid = new Obstacle(this, game.config.width, randomY, 'asteroid', 0)
-            this.asteroids.add(asteroid)
-        }
+        // start spawning asteroids at random intervals
+        this.spawnAsteroidLoop();
 
-        // increase asteroid speed over time
+        // difficulty ramp-up
         this.time.addEvent({
             delay: 5000, // every 5 seconds
-            callback: this.increaseAsteroidSpeed, // increases speed
+            callback: this.increaseDifficulty,
             callbackScope: this,
             loop: true
-        })
+        });
 
         // define keys
         this.keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -118,18 +116,46 @@ class Play extends Phaser.Scene {
 
         // update asteroids
         this.asteroids.getChildren().forEach(asteroid => {
-            asteroid.update()
-        })
+            asteroid.x -= asteroid.moveSpeed;
+            if (asteroid.x < 0) {
+                asteroid.destroy();
+            }
+        });
     }
 
-    // increase speed of asteroids by 1
-    increaseAsteroidSpeed() {
-        this.asteroids.getChildren().forEach(asteroid => {
-            asteroid.moveSpeed += 1
-        })
+    spawnAsteroidLoop() {
+        let randomDelay = Phaser.Math.Between(this.spawnDelay / 2, this.spawnDelay); // random delay between spawns
+        this.time.addEvent({
+            delay: randomDelay,
+            callback: () => {
+                this.spawnMultipleAsteroids();
+                if (!this.gameOver) {
+                    this.spawnAsteroidLoop(); // recursively spawn the next set of asteroids
+                }
+            },
+            callbackScope: this
+        });
     }
 
-    // handle collision
+    spawnMultipleAsteroids() {
+        let asteroidCount = Phaser.Math.Between(1, 3); // spawn 1 to 3 asteroids at once
+        for (let i = 0; i < asteroidCount; i++) {
+            this.spawnAsteroid();
+        }
+    }
+
+    spawnAsteroid() {
+        let randomY = Phaser.Math.Between(125, 430);
+        let asteroid = new Obstacle(this, game.config.width, randomY, 'asteroid', 0);
+        asteroid.moveSpeed = Phaser.Math.Between(2 + this.difficultyLevel, 6 + this.difficultyLevel); // faster asteroids with difficulty
+        this.asteroids.add(asteroid);
+    }
+
+    increaseDifficulty() {
+        this.difficultyLevel++;
+        this.spawnDelay = Math.max(200, this.spawnDelay - 200); // reduce delay, but cap it at 200ms
+    }
+
     handleCollision() {
         this.gameOver = true;
         this.p1Spaceship.setVelocityY(0);
@@ -155,7 +181,6 @@ class Play extends Phaser.Scene {
         this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press [R] to Restart', scoreConfig).setOrigin(0.5);
     }
 
-    // update score
     updateScore() {
         if (!this.gameOver) {
             this.timeElapsed++;
