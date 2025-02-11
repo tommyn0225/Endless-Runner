@@ -7,6 +7,7 @@ class Menu extends Phaser.Scene {
     preload() {
         // load assets
         this.load.image('background', './assets/background.png')
+        this.load.image('titleArt', './assets/titleart.png')
         this.load.spritesheet('asteroid', './assets/asteroid.png', {
             frameWidth: 64,
             frameHeight: 64,
@@ -18,6 +19,9 @@ class Menu extends Phaser.Scene {
     }
     
     create() {
+        // title screen background
+        this.add.image(game.config.width / 2, game.config.height / 2, 'titleArt').setOrigin(0.5)
+
         // display menu text
         let menuConfig = {
             fontFamily: 'Courier',
@@ -29,7 +33,6 @@ class Menu extends Phaser.Scene {
                 top: 5,
                 bottom: 5,
             },
-            //fixedWidth: 200
         }
 
         this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'Use [LMouse] to move down', menuConfig).setOrigin(0.5)
@@ -38,7 +41,6 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width / 2, game.config.height / 2 + 150, 'Press [LMouse] to start!', menuConfig).setOrigin(0.5)
         menuConfig.color = '#000000'
         this.add.text(game.config.width / 2, game.config.height / 2 + 200, 'code, music, graphics by Tommy Nguyen', menuConfig).setOrigin(0.5)
-
 
         // define keys
         this.keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
