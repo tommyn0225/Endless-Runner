@@ -101,6 +101,7 @@ class Play extends Phaser.Scene {
 
     update() {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(this.keyRESET)) {
+            this.sound.play('buttonClick', { volume: 0.25 });
             this.scene.restart();
         }
 
@@ -164,6 +165,7 @@ class Play extends Phaser.Scene {
 
     handleCollision() {
         this.gameOver = true;
+        this.sound.play('explosion', { volume: 0.25 });
         this.p1Spaceship.setVelocityY(0);
         this.asteroids.setVelocityX(0);
         this.physics.pause(); // pause physics

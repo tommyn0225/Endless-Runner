@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene {
         this.load.image('background', './assets/background.png')
         this.load.image('titleArt', './assets/titleart.png')
         this.load.audio('bgm', './assets/bgm.mp3')
+        this.load.audio('buttonClick', './assets/buttonclick.wav')
+        this.load.audio('explosion', './assets/explosion.wav')
         this.load.spritesheet('asteroid', './assets/asteroid.png', {
             frameWidth: 64,
             frameHeight: 64,
@@ -45,19 +47,21 @@ class Menu extends Phaser.Scene {
         menuConfig.color = '#F00000'
         this.add.text(game.config.width / 2, game.config.height / 2 + 150, 'Press [LMouse] to start!', menuConfig).setOrigin(0.5)
         menuConfig.color = '#000000'
-        this.add.text(game.config.width / 2, game.config.height / 2 + 200, 'code, sfx, graphics by Tommy Nguyen', menuConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, game.config.height / 2 + 200, 'code + graphics by Tommy Nguyen', menuConfig).setOrigin(0.5)
 
         // define keys
         this.keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
 
         // start the game on left mouse button
         this.input.on('pointerdown', () => {
+            this.sound.play('buttonClick', { volume: 0.25 });
             this.scene.start('playScene')
         })
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.keyRESET)) {
+            this.sound.play('buttonClick', { volume: 0.25 });
             this.scene.start('playScene')
         }
     }

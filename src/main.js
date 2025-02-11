@@ -15,8 +15,9 @@ visual style: drawing with a mouse is hard...
 
 CREDITS
 bgm: https://www.youtube.com/watch?v=ziFxpjRbfJc
+sfx from: https://mixkit.co/free-sound-effects/game/
 all art made with: https://www.pixilart.com/draw
-sfx made with: my mouth
+
 
 */
 let config = {
