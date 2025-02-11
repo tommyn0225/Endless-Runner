@@ -40,7 +40,6 @@ class Play extends Phaser.Scene {
         // adjust hitbox size
         this.p1Spaceship.body.setSize(this.p1Spaceship.width * 0.8, this.p1Spaceship.height * 0.6);
 
-        
         // spaceship animation
         this.anims.create({
             key: 'fly',
@@ -74,6 +73,7 @@ class Play extends Phaser.Scene {
 
         // define keys
         this.keyRESET = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        this.keyMENU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
 
         // input controls
         this.input.on('pointerdown', () => {
@@ -100,13 +100,19 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(this.keyRESET)) {
-            this.sound.play('buttonClick', { volume: 0.25 });
-            this.scene.restart();
+        if (this.gameOver) {
+            if (Phaser.Input.Keyboard.JustDown(this.keyRESET)) {
+                this.sound.play('buttonClick', { volume: 0.25 });
+                this.scene.restart();
+            }
+            if (Phaser.Input.Keyboard.JustDown(this.keyMENU)) {
+                this.sound.play('buttonClick', { volume: 0.25 });
+                this.scene.start("menuScene"); 
+            }
+            return;
         }
 
-        if (this.gameOver) return;
-
+        // background scroll
         this.background.tilePositionX += this.backgroundSpeed;
 
         // top and bottom borders
@@ -186,7 +192,12 @@ class Play extends Phaser.Scene {
         };
 
         this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-        this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press [R] to Restart', scoreConfig).setOrigin(0.5);
+        this.add.text(
+            game.config.width / 2, 
+            game.config.height / 2 + 64, 
+            'Press [R] to Restart\nPress [B] for Menu', 
+            scoreConfig
+        ).setOrigin(0.5);
     }
 
     updateScore() {
